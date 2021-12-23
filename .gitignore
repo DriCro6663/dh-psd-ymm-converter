@@ -1,0 +1,17 @@
+# Ignore the Yukkuri's folders
+99-*
+Resource
+
+# Ignore bat folders
+proxy
+git-commit
+
+# Ignore the Reference folders
+Reference
+
+# Ignore the pyinstaller's folders
+__pycache__
+build
+dist
+*.spec
+dh-psd-ymm-convert.exe
