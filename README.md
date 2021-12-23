@@ -8,8 +8,12 @@ dairi＆はるか 様の [東方デフォルメ画像](https://goo.gl/3G91VJ) �
 
 一応、 [YMM3](https://manjubox.net/ymm3/) と [YMM4](https://manjubox.net/ymm4/) に対応したフォルダを作成できます。
 
+ダウンロードは、[Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases) から実行ファイルを zip, 7z 形式でダウンロードできます。
+
 # 概要
 本プログラムは、dairi＆はるか 様の [東方デフォルメ画像](https://goo.gl/3G91VJ) のデフォルメ psd ファイルから YMM: ゆっくりムービーメーカー に対応する画像フォルダを作成するプログラムです。
+
+[Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases) から実行ファイルを zip, 7z 形式でダウンロードできます。
 
 <details>
     <summary>口パク・瞬きの画像を知りたい方は、こちらをクリックしてください</summary>

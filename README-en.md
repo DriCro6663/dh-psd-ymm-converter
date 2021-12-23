@@ -11,8 +11,12 @@ I made this program because I thought it would be possible to implement mouth cl
 
 In the meantime, you can create folders for [YMM3](https://manjubox.net/ymm3/) and [YMM4](https://manjubox.net/ymm4/).
 
+You can download the executable file in zip and 7z format from [Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases).
+
 # Overview
 This program creates an image folder for YMM: Yukkuri Movie Maker from a deformed psd file of [Touhou Deformed Images](https://goo.gl/3G91VJ) by dairi & Haruka.
+
+[Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases) から実行ファイルを zip, 7z 形式でダウンロードできます。
 
 <details>
     <summary>If you want to know the image of mouthing and blinking, click here.</summary>
