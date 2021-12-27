@@ -15,3 +15,6 @@ build
 dist
 *.spec
 dh-psd-ymm-convert.exe
+
+00-*
+01-*

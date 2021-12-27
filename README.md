@@ -8,10 +8,17 @@ dairi＆はるか 様の [東方デフォルメ画像](https://goo.gl/3G91VJ) �
 
 一応、 [YMM3](https://manjubox.net/ymm3/) と [YMM4](https://manjubox.net/ymm4/) に対応したフォルダを作成できます。
 
+2021/12/27: dairi＆はるか 様の [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) にも対応できるように改良しました。
+
+CoC 動画で使用させていただく予定の東方立ち絵が口パク・瞬きできるぜ！
+うぇっへっへっ……（きりたん風）
+
 ダウンロードは、[Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases) から実行ファイルを zip, 7z 形式でダウンロードできます。
 
 # 概要
 本プログラムは、dairi＆はるか 様の [東方デフォルメ画像](https://goo.gl/3G91VJ) のデフォルメ psd ファイルから YMM: ゆっくりムービーメーカー に対応する画像フォルダを作成するプログラムです。
+
+2021/12/27: dairi＆はるか 様の [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) にも対応できるように改良しました。
 
 [Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases) から実行ファイルを zip, 7z 形式でダウンロードできます。
 
@@ -48,21 +55,22 @@ dairi＆はるか 様の [東方デフォルメ画像](https://goo.gl/3G91VJ) �
 </div></details>　　
 
 # 使い方
-1. [00-full-psd], [00-icon-psd] フォルダにデフォルメ psd ファイルを入れてください。
+1. [00-def-psd] フォルダにデフォルメ psd ファイル, [00-sta-psd] フォルダに立ち絵 psd ファイルを入れてください。
 
 ```
 # Example tree
 /Chara's
-|-- 00-full-psd
+|-- 00-def-psd
 |   |-- せいじゃ.psd
-|-- 00-icon-psd
 |   |-- せいじゃアイコン.psd
-|-- 00-result
+|-- 00-sta-psd
+|   |-- 正邪.psd
+|-- 01-result
 |-- dist
 |   |-- dh-psd-ymm-convert
-|   |   |-- 00-full-psd
-|   |   |-- 00-icon-psd
-|   |   |-- 00-result
+|   |   |-- 00-def-psd
+|   |   |-- 00-sta-psd
+|   |   |-- 01-result
 |   |   |-- その他のファイル・フォルダ群
 |   |   |-- dh-psd-ymm-convert.exe  <= [Quick Ver.]
 |-- dh-psd-ymm-convert.bat          <= [Quick Ver.]
@@ -78,25 +86,28 @@ dairi＆はるか 様の [東方デフォルメ画像](https://goo.gl/3G91VJ) �
     利点： exe Ver. よりも実行測度が速い <br>
     欠点：大量のファイルと関係付けられている
 
-3. 実行後、[00-result] フォルダに YMM に対応した画像フォルダが作成されます。
+3. 実行後、[01-result] フォルダに YMM に対応した画像フォルダが作成されます。
 
 ```
 # Example tree -exe Ver.-
 /Chara's
-|-- 00-full-psd
+|-- 00-def-psd
 |   |-- せいじゃ.psd
-|-- 00-icon-psd
 |   |-- せいじゃアイコン.psd
-|-- 00-result
+|-- 00-sta-psd
+|   |-- 正邪.psd
+|-- 01-result
 |   |-- せいじゃ-YMM3
 |   |-- せいじゃ-YMM4
 |   |-- せいじゃアイコン-YMM3
 |   |-- せいじゃアイコン-YMM4
+|   |-- 正邪-YMM3
+|   |-- 正邪-YMM4
 |-- dist
 |   |-- dh-psd-ymm-convert
-|   |   |-- 00-full-psd
-|   |   |-- 00-icon-psd
-|   |   |-- 00-result
+|   |   |-- 00-def-psd
+|   |   |-- 00-sta-psd
+|   |   |-- 01-result
 |   |   |-- その他のファイル・フォルダ群
 |   |   |-- dh-psd-ymm-convert.exe  <= [Quick Ver.]
 |-- dh-psd-ymm-convert.bat          <= [Quick Ver.]
@@ -104,26 +115,32 @@ dairi＆はるか 様の [東方デフォルメ画像](https://goo.gl/3G91VJ) �
 
 # Example tree -bat Ver.-
 /Chara's
-|-- 00-full-psd
+|-- 00-def-psd
 |   |-- せいじゃ.psd
-|-- 00-icon-psd
 |   |-- せいじゃアイコン.psd
-|-- 00-result
+|-- 00-sta-psd
+|   |-- 正邪.psd
+|-- 01-result
 |   |-- せいじゃ-YMM3
 |   |-- せいじゃ-YMM4
 |   |-- せいじゃアイコン-YMM3
 |   |-- せいじゃアイコン-YMM4
+|   |-- 正邪-YMM3
+|   |-- 正邪-YMM4
 |-- dist
 |   |-- dh-psd-ymm-convert
-|   |   |-- 00-full-psd
+|   |   |-- 00-def-psd
 |   |   |   |-- せいじゃ.psd
-|   |   |-- 00-icon-psd
 |   |   |   |-- せいじゃアイコン.psd
-|   |   |-- 00-result
+|   |   |-- 00-sta-psd
+|   |   |   |-- 正邪.psd
+|   |   |-- 01-result
 |   |   |   |-- せいじゃ-YMM3
 |   |   |   |-- せいじゃ-YMM4
 |   |   |   |-- せいじゃアイコン-YMM3
 |   |   |   |-- せいじゃアイコン-YMM4
+|   |   |   |-- 正邪-YMM3
+|   |   |   |-- 正邪-YMM4
 |   |   |-- dh-psd-ymm-convert.exe  <= [Quick Ver.]
 |-- dh-psd-ymm-convert.bat          <= [Quick Ver.]
 |-- dh-psd-ymm-convert.exe          <= [OneFile Ver.]
@@ -215,6 +232,8 @@ pyinstaller main.py --name [fileName] --onefile --icon [./img/icon.ico] --nocons
 
 # 更新情報
 
+* 2021/12/27: <br>
+dairi＆はるか 様の [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) にも対応できるように改良
 * 2021/12/23: <br>
 完成・First commit
 

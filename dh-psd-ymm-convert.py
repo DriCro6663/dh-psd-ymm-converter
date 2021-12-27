@@ -12,11 +12,14 @@ import re
 
 # /* Constant */
 PATH = os.getcwd()
-PSD_PATH = os.path.join(PATH, "00-full-psd")
-PSD_ICO_PATH = os.path.join(PATH, "00-icon-psd")
-OUTPUT_PATH = os.path.join(PATH, "00-result")
+PSD_PATH = os.path.join(PATH, "00-full-psd")        # don't use
+PSD_ICO_PATH = os.path.join(PATH, "00-icon-psd")    # don't use
+PSD_DEF_PATH = os.path.join(PATH, "00-def-psd")
+PSD_STA_PATH = os.path.join(PATH, "00-sta-psd")
+OUTPUT_PATH = os.path.join(PATH, "01-result")       # "00-result" -> "01-result"
 YMM3 = "-YMM3"
 YMM4 = "-YMM4"
+QUALITY = 95
 
 # Array
 Y_VER_ARR = np.array(
@@ -39,12 +42,15 @@ DH_DICT = {
     "体": "体",
     "その他": "他"
 }
+# デフォルト
 EYE_DICT_Y3 = {
+    "目閉じ": "00b",
     "閉じ目(下)": "00b",
     "ジト目": "00a",
     "普通目": "00"
 }
 EYE_DICT_Y4 = {
+    "目閉じ": "00.0",
     "閉じ目(下)": "00.0",
     "ジト目": "00.1",
     "普通目": "00"
@@ -63,11 +69,13 @@ MOUTH_DICT_01_Y3 = {
     "口閉じ笑い": "01b",
     "小口笑い": "01a",
     "大口笑い": "01",
+    "大口笑い１": "01",
 }
 MOUTH_DICT_01_Y4 = {
     "口閉じ笑い": "01.0",
     "小口笑い": "01.1",
     "大口笑い": "01",
+    "大口笑い１": "01",
 }
 
 # /*===================================================================================================*/
@@ -78,11 +86,11 @@ def change_dir(psd_name, parts_name):
     p = os.path.join(p, parts_name)
     os.chdir(p)
 
-def save_psd_img(psd, layer, ver = 0):
+def save_psd_img(psd, layer, ver=None, style=None):
     if layer.is_group() and ( ("目" in layer.name) or ("口" in layer.name) ):
         for l in layer:
             save_psd_layer_img(psd=psd, layer=l)
-            save_psd_layer_em_img(psd=psd, layer=l, ver=ver)
+            save_psd_layer_em_img(psd=psd, layer=l, ver=ver, style=style)
     elif layer.is_group():
         for l in layer:
             save_psd_layer_img(psd=psd, layer=l)
@@ -95,9 +103,9 @@ def save_psd_layer_img(psd, layer):
     img = Image.new('RGBA', psd.size)
     img.paste(layer.topil(), (layer.left, layer.top))
     img = img.crop(psd.bbox)
-    img.save("./"+file_name+".png", quality=95)
+    img.save("./"+file_name+".png", quality=QUALITY)
 
-def save_psd_layer_em_img(psd, layer, ver):
+def save_psd_layer_em_img(psd, layer, ver, style):
     file_name = layer.name
     file_name = re.sub(r'[\\/:*?"<>|]+', '', file_name) # ファイル名に使えないものは置換
     img = Image.new('RGBA', psd.size)
@@ -105,21 +113,23 @@ def save_psd_layer_em_img(psd, layer, ver):
     img = img.crop(psd.bbox)
     layer_name = re.sub('!|\*', '', layer.name)
     if ver == YMM3:
-        # eye
+        # YMM3
         if layer_name in EYE_DICT_Y3:
-            img.save("./"+EYE_DICT_Y3[layer_name]+".png", quality=95)
+            img.save("./"+EYE_DICT_Y3[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_00_Y3:
-            img.save("./"+MOUTH_DICT_00_Y3[layer_name]+".png", quality=95)
+            img.save("./"+MOUTH_DICT_00_Y3[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_01_Y3:
-            img.save("./"+MOUTH_DICT_01_Y3[layer_name]+".png", quality=95)
+            img.save("./"+MOUTH_DICT_01_Y3[layer_name]+".png", quality=QUALITY)
     elif ver == YMM4:
-        # mouth
+        # YMM4 
         if layer_name in EYE_DICT_Y4:
-            img.save("./"+EYE_DICT_Y4[layer_name]+".png", quality=95)
+            img.save("./"+EYE_DICT_Y4[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_00_Y4:
-            img.save("./"+MOUTH_DICT_00_Y4[layer_name]+".png", quality=95)
+            img.save("./"+MOUTH_DICT_00_Y4[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_01_Y4:
-            img.save("./"+MOUTH_DICT_01_Y4[layer_name]+".png", quality=95)
+            img.save("./"+MOUTH_DICT_01_Y4[layer_name]+".png", quality=QUALITY)
+
+# /*===================================================================================================*/
 
 # /* Class */
 class Converter:
@@ -128,19 +138,18 @@ class Converter:
         
     def load_psd(self):
         # Get a list of file names only
-        path = PSD_PATH
-        files = os.listdir(path)
-        files_file = [os.path.join(path, f) for f in files if os.path.isfile(os.path.join(path, f))]
-        psd_path = np.array(files_file, dtype=object)
-        path = PSD_ICO_PATH
-        files = os.listdir(path)
-        files_file = [os.path.join(path, f) for f in files if os.path.isfile(os.path.join(path, f))]
-        files_file = np.array(files_file, dtype=object)
-        self.psd_paths = np.append(psd_path, files_file)
+        self.psd_paths = np.array([], dtype=object)
+        self.style_arr = np.array([], dtype=object)
+        self.load_paths = np.array([PSD_DEF_PATH, PSD_STA_PATH], dtype=object)
+        for path in self.load_paths:
+            files = os.listdir(path)
+            files_file = [os.path.join(path, f) for f in files if os.path.isfile(os.path.join(path, f))]
+            files_file = np.array(files_file, dtype=object)
+            self.psd_paths = np.append(self.psd_paths, files_file)
+            style = np.array([path]*len(files_file), dtype=object)
+            self.style_arr = np.append(self.style_arr, style)
         # load psd
-        psd_list = [PSDImage.open(p) for p in self.psd_paths]
-        #self.psd_arr = np.array(psd_list, dtype=object)
-        self.psd_arr = psd_list
+        self.psd_arr = [PSDImage.open(p) for p in self.psd_paths]
         return self.psd_arr
     
     def convert(self):
@@ -151,7 +160,7 @@ class Converter:
         print("完了！")
     
     def psd2png(self):
-        for psd, name in zip(self.psd_arr, self.psd_names):
+        for psd, name, style in zip(self.psd_arr, self.psd_names, self.style_arr):
             for layer, ver in itertools.product(psd, Y_VER_ARR):
                 folder_name = name+ver
                 # 体
@@ -159,7 +168,6 @@ class Converter:
                     print("creating [{}]...".format(folder_name))
                     change_dir(psd_name=folder_name, parts_name="体")
                     save_psd_img(psd=psd, layer=layer)
-                    #layer.topil().save('./00.png')
                 # 感情マーク
                 elif ( layer.is_group() ) and ( layer.name.find("感情マーク") != -1 ):
                     change_dir(psd_name=folder_name, parts_name=DH_DICT["感情マーク"])
@@ -189,15 +197,15 @@ class Converter:
                                 # 眉
                                 if ( g.is_group() ) and ( g.name.find("眉") != -1 ):
                                     change_dir(psd_name=folder_name, parts_name=DH_DICT["眉"])
-                                    save_psd_img(psd=psd, layer=g, ver=ver)
+                                    save_psd_img(psd=psd, layer=g, ver=ver, style=style)
                                 # 目
                                 elif ( g.is_group() ) and ( g.name.find("目") != -1 ):
                                     change_dir(psd_name=folder_name, parts_name=DH_DICT["目"])
-                                    save_psd_img(psd=psd, layer=g, ver=ver)
+                                    save_psd_img(psd=psd, layer=g, ver=ver, style=style)
                                 # 口
                                 elif ( g.is_group() ) and ( g.name.find("口") != -1 ):
                                     change_dir(psd_name=folder_name, parts_name=DH_DICT["口"])
-                                    save_psd_img(psd=psd, layer=g, ver=ver)
+                                    save_psd_img(psd=psd, layer=g, ver=ver, style=style)
     
     def create_folder(self):
         psd_names = [os.path.splitext(os.path.basename(p))[0] for p in self.psd_paths]

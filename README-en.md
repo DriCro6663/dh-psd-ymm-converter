@@ -11,12 +11,19 @@ I made this program because I thought it would be possible to implement mouth cl
 
 In the meantime, you can create folders for [YMM3](https://manjubox.net/ymm3/) and [YMM4](https://manjubox.net/ymm4/).
 
+2021/12/27: Modified to support dairi & Haruka's [Touhou Standing Pictures](https://seiga.nicovideo.jp/seiga/im3189645).
+
+I can blink and talk in the CoC video!
+Heh heh heh ...... (Kiritan style)
+
 You can download the executable file in zip and 7z format from [Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases).
 
 # Overview
 This program creates an image folder for YMM: Yukkuri Movie Maker from a deformed psd file of [Touhou Deformed Images](https://goo.gl/3G91VJ) by dairi & Haruka.
 
-[Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases) から実行ファイルを zip, 7z 形式でダウンロードできます。
+2021/12/27: Modified to support dairi & Haruka's [Touhou Standing Pictures](https://seiga.nicovideo.jp/seiga/im3189645).
+
+You can download the executable file in zip and 7z format from [Release](https://github.com/DriCro6663/dh-psd-ymm-converter/releases).
 
 <details>
     <summary>If you want to know the image of mouthing and blinking, click here.</summary>
@@ -53,21 +60,22 @@ This program creates an image folder for YMM: Yukkuri Movie Maker from a deforme
 
 # Usage
 
-1. Put the deformed psd files in the [00-full-psd] and [00-icon-psd] folders.
+1. put the deformed psd file in the [00-def-psd] folder and the standing psd file in the [00-sta-psd] folder.
 
 ```
 # Example tree
 /Chara's
-|-- 00-full-psd
+|-- 00-def-psd
 |   |-- Seija.psd
-|-- 00-icon-psd
 |   |-- Seija-icon.psd
-|-- 00-result
+|-- 00-sta-psd
+|   |-- SEIJA.psd
+|-- 01-result
 |-- dist
 |   |-- dh-psd-ymm-convert
-|   |   |-- 00-full-psd
-|   |   |-- 00-icon-psd
-|   |   |-- 00-result
+|   |   |-- 00-def-psd
+|   |   |-- 00-sta-psd
+|   |   |-- 01-result
 |   |   |-- Other files and folders
 |   |   |-- dh-psd-ymm-convert.exe  <= [Quick Ver.]
 |-- dh-psd-ymm-convert.bat          <= [Quick Ver.]
@@ -83,25 +91,28 @@ This program creates an image folder for YMM: Yukkuri Movie Maker from a deforme
     Merit: Faster execution than exe Ver. <br>
     Demerit: It is associated with a large number of files.
 
-3. After execution, an image folder corresponding to YMM will be created in the [00-result] folder.
+3. After execution, an image folder corresponding to YMM will be created in the [01-result] folder.
 
 ```
 # Example tree -exe Ver.-
 /Chara's
-|-- 00-full-psd
+|-- 00-def-psd
 |   |-- Seija.psd
-|-- 00-icon-psd
 |   |-- Seija-icon.psd
-|-- 00-result
+|-- 00-sta-psd
+|   |-- SEIJA.psd
+|-- 01-result
 |   |-- Seija-YMM3
 |   |-- Seija-YMM4
 |   |-- Seija-icon-YMM3
 |   |-- Seija-icon-YMM4
+|   |-- SEIJA-YMM3
+|   |-- SEIJA-YMM4
 |-- dist
 |   |-- dh-psd-ymm-convert
-|   |   |-- 00-full-psd
-|   |   |-- 00-icon-psd
-|   |   |-- 00-result
+|   |   |-- 00-def-psd
+|   |   |-- 00-sta-psd
+|   |   |-- 01-result
 |   |   |-- Other files and folders
 |   |   |-- dh-psd-ymm-convert.exe  <= [Quick Ver.]
 |-- dh-psd-ymm-convert.bat          <= [Quick Ver.]
@@ -109,26 +120,32 @@ This program creates an image folder for YMM: Yukkuri Movie Maker from a deforme
 
 # Example tree -bat Ver.-
 /Chara's
-|-- 00-full-psd
+|-- 00-def-psd
 |   |-- Seija.psd
-|-- 00-icon-psd
 |   |-- Seija-icon.psd
-|-- 00-result
+|-- 00-sta-psd
+|   |-- SEIJA.psd
+|-- 01-result
 |   |-- Seija-YMM3
 |   |-- Seija-YMM4
 |   |-- Seija-icon-YMM3
 |   |-- Seija-icon-YMM4
+|   |-- SEIJA-YMM3
+|   |-- SEIJA-YMM4
 |-- dist
 |   |-- dh-psd-ymm-convert
-|   |   |-- 00-full-psd
+|   |   |-- 00-def-psd
 |   |   |   |-- Seija.psd
-|   |   |-- 00-icon-psd
 |   |   |   |-- Seija-icon.psd
-|   |   |-- 00-result
+|   |   |-- 00-sta-psd
+|   |   |   |-- SEIJA.psd
+|   |   |-- 01-result
 |   |   |   |-- Seija-YMM3
 |   |   |   |-- Seija-YMM4
 |   |   |   |-- Seija-icon-YMM3
 |   |   |   |-- Seija-icon-YMM4
+|   |   |   |-- SEIJA-YMM3
+|   |   |   |-- SEIJA-YMM4
 |   |   |-- dh-psd-ymm-convert.exe  <= [Quick Ver.]
 |-- dh-psd-ymm-convert.bat          <= [Quick Ver.]
 |-- dh-psd-ymm-convert.exe          <= [OneFile Ver.]
@@ -220,6 +237,8 @@ The distribution of this program may be terminated without notice.
 
 # Updates
 
+* 2021/12/27: <br>
+Modified to support dairi & Haruka's [Touhou Standing Pictures](https://seiga.nicovideo.jp/seiga/im3189645).
 * 2021/12/23: <br>
 Completed / First commit
 
