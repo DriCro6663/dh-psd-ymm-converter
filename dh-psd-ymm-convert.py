@@ -168,6 +168,10 @@ class Converter:
                     print("creating [{}]...".format(folder_name))
                     change_dir(psd_name=folder_name, parts_name="体")
                     save_psd_img(psd=psd, layer=layer)
+                elif ( layer.is_group() ) and ( layer.name.find("体") != -1 ):
+                    print("creating [{}]...".format(folder_name))
+                    change_dir(psd_name=folder_name, parts_name="体")
+                    save_psd_img(psd=psd, layer=layer)
                 # 感情マーク
                 elif ( layer.is_group() ) and ( layer.name.find("感情マーク") != -1 ):
                     change_dir(psd_name=folder_name, parts_name=DH_DICT["感情マーク"])
@@ -176,7 +180,6 @@ class Converter:
                 elif ( layer.is_group() ) and ( layer.name.find("汗、涙") != -1 ):
                     change_dir(psd_name=folder_name, parts_name=DH_DICT["汗、涙"])
                     save_psd_img(psd=psd, layer=layer)
-                
                 # 顔色
                 elif ( layer.is_group() ) and ( layer.name.find("顔色") != -1 ):
                     change_dir(psd_name=folder_name, parts_name=DH_DICT["顔色"])

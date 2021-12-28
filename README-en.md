@@ -238,7 +238,9 @@ The distribution of this program may be terminated without notice.
 # Updates
 
 * 2021/12/27: <br>
-Modified to support dairi & Haruka's [Touhou Standing Pictures](https://seiga.nicovideo.jp/seiga/im3189645).
+Fixed the problem that the image of the "body" is not output in the -Damage Ver.- of [Touhou Stand-up Drawing](https://seiga.nicovideo.jp/seiga/im3189645).
+* 2021/12/27: <br>
+Support dairi&Haruka's [Touhou Standing Pictures](https://seiga.nicovideo.jp/seiga/im3189645)
 * 2021/12/23: <br>
 Completed / First commit
 

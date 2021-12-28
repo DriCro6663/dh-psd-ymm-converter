@@ -231,9 +231,10 @@ pyinstaller main.py --name [fileName] --onefile --icon [./img/icon.ico] --nocons
 また、本プログラムは予告なく配布を終了する場合があります。
 
 # 更新情報
-
+* 2021/12/28: <br>
+[東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) の -やられ Ver.- において、"体"の画像が出力されない問題を修正
 * 2021/12/27: <br>
-dairi＆はるか 様の [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) にも対応できるように改良
+dairi＆はるか 様の [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) に対応
 * 2021/12/23: <br>
 完成・First commit
 
