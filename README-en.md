@@ -237,6 +237,8 @@ The distribution of this program may be terminated without notice.
 
 # Updates
 
+* 2021/12/29: <br>
+Fixed an issue where the parts of the [他: Other] folder were output in an overlooked state.
 * 2021/12/27: <br>
 Fixed the problem that the image of the "body" is not output in the -Damage Ver.- of [Touhou Stand-up Drawing](https://seiga.nicovideo.jp/seiga/im3189645).
 * 2021/12/27: <br>

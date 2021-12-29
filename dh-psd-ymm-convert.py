@@ -102,7 +102,6 @@ def save_psd_layer_img(psd, layer):
     file_name = re.sub(r'[\\/:*?"<>|]+', '', file_name) # ファイル名に使えないものは置換
     img = Image.new('RGBA', psd.size)
     img.paste(layer.topil(), (layer.left, layer.top))
-    img = img.crop(psd.bbox)
     img.save("./"+file_name+".png", quality=QUALITY)
 
 def save_psd_layer_em_img(psd, layer, ver, style):
@@ -110,7 +109,6 @@ def save_psd_layer_em_img(psd, layer, ver, style):
     file_name = re.sub(r'[\\/:*?"<>|]+', '', file_name) # ファイル名に使えないものは置換
     img = Image.new('RGBA', psd.size)
     img.paste(layer.topil(), (layer.left, layer.top))
-    img = img.crop(psd.bbox)
     layer_name = re.sub('!|\*', '', layer.name)
     if ver == YMM3:
         # YMM3
