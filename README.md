@@ -202,7 +202,7 @@ echo %HTTPS_PROXY%
 ## py -> exe
 ```
 # Example
-pyinstaller main.py --onefile
+pyinstaller dh-psd-ymm-convert.py --onefile --clean --icon ./Resource/YMM_logo.ico
 
 """
     --name          : exe ファイル名の指定
@@ -212,7 +212,7 @@ pyinstaller main.py --onefile
     --clean         : キャッシュを削除
     --icon          : アイコンファイルのパスを指定
 
-pyinstaller main.py --name [fileName] --onefile --icon [./img/icon.ico] --noconsole
+pyinstaller main.py --name [fileName] --onefile --icon [./img/icon.ico] --noconsole --clean
 """
 ```
 
@@ -232,14 +232,22 @@ pyinstaller main.py --name [fileName] --onefile --icon [./img/icon.ico] --nocons
 
 # 更新情報
 
+* 2022/01/07: <br>
+    [YMM4 に対応したフォルダ](https://manjubox.net/ymm4/faq/%E7%AB%8B%E3%81%A1%E7%B5%B5%E6%A9%9F%E8%83%BD/%E5%8B%95%E3%81%8F%E7%AB%8B%E3%81%A1%E7%B5%B5%E7%B4%A0%E6%9D%90%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9/)を出力できない問題を修正 <br>
+    一部のパーツが出力されない問題を修正 <br>
+    光無し目を持つ一部のキャラクターの瞬きを出力できるように改善
+
 * 2021/12/29: <br>
-[他]フォルダのパーツが見切れた状態で出力される問題を修正
+    [他]フォルダのパーツが見切れた状態で出力される問題を修正
+
 * 2021/12/28: <br>
-[東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) の -やられ Ver.- において、"体"の画像が出力されない問題を修正
+    [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) の -やられ Ver.- において、"体"の画像が出力されない問題を修正
+    
 * 2021/12/27: <br>
-dairi＆はるか 様の [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) に対応
+    dairi＆はるか 様の [東方立ち絵](https://seiga.nicovideo.jp/seiga/im3189645) に対応
+
 * 2021/12/23: <br>
-完成・First commit
+    完成・First commit
 
 # 開発者情報
 

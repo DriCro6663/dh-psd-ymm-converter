@@ -25,15 +25,20 @@ QUALITY = 95
 Y_VER_ARR = np.array(
     [YMM3, YMM4], dtype=object
 )
-Y_FOLDER_ARR = np.array(
+Y_FOLDER_Y3_ARR = np.array(
     ["顔", "後", "口", "全", "他", "体", "髪", "眉", "目"], 
+    dtype=object
+)
+Y_FOLDER_Y4_ARR = np.array(
+    ["顔色", "後", "口", "他", "体", "髪", "眉", "目"], 
     dtype=object
 )
 
 # Dictionary
-DH_DICT = {
+DH_Y3_DICT = {
     "感情マーク": "他",
     "汗、涙": "顔",
+    "涙、汗": "顔",
     "表情サンプル": "顔",
     "眉": "眉",
     "目": "目",
@@ -42,18 +47,40 @@ DH_DICT = {
     "体": "体",
     "その他": "他"
 }
+DH_Y4_DICT = {
+    "感情マーク": "他",
+    "汗、涙": "顔色",
+    "涙、汗": "顔色",
+    "表情サンプル": "顔色",
+    "眉": "眉",
+    "目": "目",
+    "口": "口",
+    "顔色": "顔色",
+    "体": "体",
+    "その他": "他"
+}
 # デフォルト
-EYE_DICT_Y3 = {
+EYE_DICT_00_Y3 = {
     "目閉じ": "00b",
     "閉じ目(下)": "00b",
     "ジト目": "00a",
-    "普通目": "00"
+    "普通目": "00",
+    "普通目1": "00"
 }
-EYE_DICT_Y4 = {
+EYE_DICT_00_Y4 = {
     "目閉じ": "00.0",
     "閉じ目(下)": "00.0",
     "ジト目": "00.1",
-    "普通目": "00"
+    "普通目": "00",
+    "普通目1": "00"
+}
+EYE_DICT_01_Y3 = {
+    "ジト目(光無)": "01a",
+    "普通目(光無)": "01"
+}
+EYE_DICT_01_Y4 = {
+    "ジト目(光無)": "01.1",
+    "普通目(光無)": "01"
 }
 MOUTH_DICT_00_Y3 = {
     "口閉じ": "00b",
@@ -76,6 +103,17 @@ MOUTH_DICT_01_Y4 = {
     "小口笑い": "01.1",
     "大口笑い": "01",
     "大口笑い１": "01",
+}
+# 立ち絵
+STA_EYE_DICT_Y3 = {
+    "目閉じ": "00b",
+    "ジト目": "00a",
+    "普通目": "00"
+}
+STA_EYE_DICT_Y4 = {
+    "目閉じ": "00.0",
+    "ジト目": "00.1",
+    "普通目": "00"
 }
 
 # /*===================================================================================================*/
@@ -102,6 +140,7 @@ def save_psd_layer_img(psd, layer):
     file_name = re.sub(r'[\\/:*?"<>|]+', '', file_name) # ファイル名に使えないものは置換
     img = Image.new('RGBA', psd.size)
     img.paste(layer.topil(), (layer.left, layer.top))
+    #img = img.crop(psd.bbox)
     img.save("./"+file_name+".png", quality=QUALITY)
 
 def save_psd_layer_em_img(psd, layer, ver, style):
@@ -109,23 +148,32 @@ def save_psd_layer_em_img(psd, layer, ver, style):
     file_name = re.sub(r'[\\/:*?"<>|]+', '', file_name) # ファイル名に使えないものは置換
     img = Image.new('RGBA', psd.size)
     img.paste(layer.topil(), (layer.left, layer.top))
+    #img = img.crop(psd.bbox)
     layer_name = re.sub('!|\*', '', layer.name)
     if ver == YMM3:
         # YMM3
-        if layer_name in EYE_DICT_Y3:
-            img.save("./"+EYE_DICT_Y3[layer_name]+".png", quality=QUALITY)
+        if layer_name in EYE_DICT_00_Y3:
+            img.save("./"+EYE_DICT_00_Y3[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_00_Y3:
             img.save("./"+MOUTH_DICT_00_Y3[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_01_Y3:
             img.save("./"+MOUTH_DICT_01_Y3[layer_name]+".png", quality=QUALITY)
+        if layer_name in EYE_DICT_01_Y3:
+            img.save("./"+EYE_DICT_01_Y3[layer_name]+".png", quality=QUALITY)
+            if not os.path.isfile(r"./01b.png"):
+                shutil.copy(r"./00b.png", r"./01b.png")
     elif ver == YMM4:
         # YMM4 
-        if layer_name in EYE_DICT_Y4:
-            img.save("./"+EYE_DICT_Y4[layer_name]+".png", quality=QUALITY)
+        if layer_name in EYE_DICT_00_Y4:
+            img.save("./"+EYE_DICT_00_Y4[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_00_Y4:
             img.save("./"+MOUTH_DICT_00_Y4[layer_name]+".png", quality=QUALITY)
         elif layer_name in MOUTH_DICT_01_Y4:
             img.save("./"+MOUTH_DICT_01_Y4[layer_name]+".png", quality=QUALITY)
+        if layer_name in EYE_DICT_01_Y4:
+            img.save("./"+EYE_DICT_01_Y4[layer_name]+".png", quality=QUALITY)
+            if not os.path.isfile(r"./01.0.png"):
+                shutil.copy(r"./00.0.png", r"./01.0.png")
 
 # /*===================================================================================================*/
 
@@ -157,70 +205,84 @@ class Converter:
         self.psd2png()
         print("完了！")
     
+    def create_folder(self):
+        psd_names = [os.path.splitext(os.path.basename(p))[0] for p in self.psd_paths]
+        psd_names = np.array(psd_names, dtype=object)
+        self.psd_names = psd_names
+        if os.path.isdir(OUTPUT_PATH):
+            shutil.rmtree(OUTPUT_PATH) # ディレクトリを中身ごと削除
+        for folder_name, y_ver in itertools.product(psd_names, Y_VER_ARR):
+            if y_ver == YMM3:
+                y_folders = Y_FOLDER_Y3_ARR
+            elif y_ver == YMM4:
+                y_folders = Y_FOLDER_Y4_ARR
+            for sub_name in y_folders:
+                output_path = os.path.join(OUTPUT_PATH, folder_name)
+                output_path = output_path + y_ver
+                output_path = os.path.join(output_path, sub_name)
+                os.makedirs(output_path, exist_ok=True)
+                self.output_path_arr = np.append(self.output_path_arr, output_path)
+        return self.output_path_arr
+    
     def psd2png(self):
         for psd, name, style in zip(self.psd_arr, self.psd_names, self.style_arr):
             for layer, ver in itertools.product(psd, Y_VER_ARR):
                 folder_name = name+ver
+                if ver == YMM3:
+                    dh_dict = DH_Y3_DICT
+                elif ver == YMM4:
+                    dh_dict = DH_Y4_DICT
                 # 体
                 if ( not layer.is_group() ) and ( layer.name.find("体") != -1 ):
                     print("creating [{}]...".format(folder_name))
                     change_dir(psd_name=folder_name, parts_name="体")
                     save_psd_img(psd=psd, layer=layer)
+                    #layer.topil().save('./00.png')
                 elif ( layer.is_group() ) and ( layer.name.find("体") != -1 ):
                     print("creating [{}]...".format(folder_name))
                     change_dir(psd_name=folder_name, parts_name="体")
                     save_psd_img(psd=psd, layer=layer)
                 # 感情マーク
                 elif ( layer.is_group() ) and ( layer.name.find("感情マーク") != -1 ):
-                    change_dir(psd_name=folder_name, parts_name=DH_DICT["感情マーク"])
+                    change_dir(psd_name=folder_name, parts_name=dh_dict["感情マーク"])
                     save_psd_img(psd=psd, layer=layer)
                 # 汗、涙
                 elif ( layer.is_group() ) and ( layer.name.find("汗、涙") != -1 ):
-                    change_dir(psd_name=folder_name, parts_name=DH_DICT["汗、涙"])
+                    change_dir(psd_name=folder_name, parts_name=dh_dict["汗、涙"])
                     save_psd_img(psd=psd, layer=layer)
+                
                 # 顔色
                 elif ( layer.is_group() ) and ( layer.name.find("顔色") != -1 ):
-                    change_dir(psd_name=folder_name, parts_name=DH_DICT["顔色"])
-                    save_psd_img(psd=psd, layer=layer)
-                # その他
-                elif ( not layer.is_group() ):
-                    change_dir(psd_name=folder_name, parts_name=DH_DICT["その他"])
+                    change_dir(psd_name=folder_name, parts_name=dh_dict["顔色"])
                     save_psd_img(psd=psd, layer=layer)
                 # 表情
                 elif ( layer.is_group() ) and ( layer.name.find("表情") != -1 ):
                     for group in layer:
                         # 表情サンプル
                         if ( group.is_group() ) and ( group.name.find("表情サンプル") != -1 ):
-                            change_dir(psd_name=folder_name, parts_name=DH_DICT["表情サンプル"])
+                            change_dir(psd_name=folder_name, parts_name=dh_dict["表情サンプル"])
                             save_psd_img(psd=psd, layer=group)
                         else:
                             for g in group:
                                 # 眉
                                 if ( g.is_group() ) and ( g.name.find("眉") != -1 ):
-                                    change_dir(psd_name=folder_name, parts_name=DH_DICT["眉"])
+                                    change_dir(psd_name=folder_name, parts_name=dh_dict["眉"])
                                     save_psd_img(psd=psd, layer=g, ver=ver, style=style)
                                 # 目
                                 elif ( g.is_group() ) and ( g.name.find("目") != -1 ):
-                                    change_dir(psd_name=folder_name, parts_name=DH_DICT["目"])
+                                    change_dir(psd_name=folder_name, parts_name=dh_dict["目"])
                                     save_psd_img(psd=psd, layer=g, ver=ver, style=style)
                                 # 口
                                 elif ( g.is_group() ) and ( g.name.find("口") != -1 ):
-                                    change_dir(psd_name=folder_name, parts_name=DH_DICT["口"])
+                                    change_dir(psd_name=folder_name, parts_name=dh_dict["口"])
                                     save_psd_img(psd=psd, layer=g, ver=ver, style=style)
-    
-    def create_folder(self):
-        psd_names = [os.path.splitext(os.path.basename(p))[0] for p in self.psd_paths]
-        psd_names = np.array(psd_names, dtype=object)
-        self.psd_names = psd_names
-        for folder_name, y_ver, sub_name in itertools.product(psd_names, Y_VER_ARR, Y_FOLDER_ARR):
-            output_path = os.path.join(OUTPUT_PATH, folder_name)
-            output_path = output_path + y_ver
-            output_path = os.path.join(output_path, sub_name)
-            if os.path.isdir(output_path):
-                shutil.rmtree(output_path) # ディレクトリを中身ごと削除
-            os.makedirs(output_path, exist_ok=True)
-            self.output_path_arr = np.append(self.output_path_arr, output_path)
-        return self.output_path_arr
+                # その他
+                elif ( layer.is_group() ):
+                    change_dir(psd_name=folder_name, parts_name=dh_dict["その他"])
+                    save_psd_img(psd=psd, layer=layer)
+                elif ( not layer.is_group() ):
+                    change_dir(psd_name=folder_name, parts_name=dh_dict["その他"])
+                    save_psd_img(psd=psd, layer=layer)
 
 # /*===================================================================================================*/
 

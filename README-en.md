@@ -237,14 +237,22 @@ The distribution of this program may be terminated without notice.
 
 # Updates
 
+* 2022/01/07: <br>
+    Fixed an issue that prevented the output of [YMM4 compatible folders](https://manjubox.net/ymm4/faq/%E7%AB%8B%E3%81%A1%E7%B5%B5%E6%A9%9F%E8%83%BD/%E5%8B%95%E3%81%8F%E7%AB%8B%E3%81%A1%E7%B5%B5%E7%B4%A0%E6%9D%90%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9/). <br>
+    Fixed the problem that some parts are not output. <br>
+    Improved the output of blinking for some characters with non-light eyes.
+    
 * 2021/12/29: <br>
-Fixed an issue where the parts of the [他: Other] folder were output in an overlooked state.
+    Fixed an issue where the parts of the [他: Other] folder were output in an overlooked state.
+
 * 2021/12/27: <br>
-Fixed the problem that the image of the "body" is not output in the -Damage Ver.- of [Touhou Stand-up Drawing](https://seiga.nicovideo.jp/seiga/im3189645).
+    Fixed the problem that the image of the "body" is not output in the -Damage Ver.- of [Touhou Stand-up Drawing](https://seiga.nicovideo.jp/seiga/im3189645).
+
 * 2021/12/27: <br>
-Support dairi&Haruka's [Touhou Standing Pictures](https://seiga.nicovideo.jp/seiga/im3189645)
+    Support dairi&Haruka's [Touhou Standing Pictures](https://seiga.nicovideo.jp/seiga/im3189645)
+    
 * 2021/12/23: <br>
-Completed / First commit
+    Completed / First commit
 
 # Developer Information
 
